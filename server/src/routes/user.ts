@@ -70,9 +70,21 @@ router.post("/login", async (req: Request, res: Response) => {
 });
 
 export const verifyToken = ( req: Request, res: Response, next: NextFunction) => {
+    // The function verifyToken is a middleware for verifying JSON Web Tokens (JWTs) in a Node.js/Express API. 
+    // It ensures that incoming requests are authenticated before allowing access to protected routes.
+
     const authHeader = req.headers.authorization;
+    // 1️⃣ What is req.headers?
+    // req.headers is an object containing all the headers sent by the client in an HTTP request.
+    // Headers provide metadata about the request, such as authentication tokens, content type, and origin.
+    // 2️⃣ What is req.headers.authorization?
+    // req.headers.authorization refers to the Authorization header in the request.
+    // It is commonly used to send authentication credentials (like JWT tokens) from the client to the server.
+
     if(authHeader){
-        jwt.verify(authHeader,"secret", (err) => {
+        // If authHeader is truthy (exists), the code inside the if block will execute.
+        // If authHeader is undefined (not present), the code inside the if block is skipped.
+        jwt.verify(authHeader,"secret", (err) => {  //(err) is a callback function of possible error
             if(err){
                 return res.sendStatus(403);
             }
